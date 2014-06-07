@@ -1,0 +1,14 @@
+# order deny,allow
+# deny from all
+# allow from 192.168.1.5
+
+
+php_flag display_errors on
+# E_ALL --> 2047
+php_value error_reporting 2047
+php_flag display_startup_errors on
+php_flag html_errors on
+# php_value error_log /var/www/html/PHP_errors.log 
+
+
+
