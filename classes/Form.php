@@ -39,8 +39,7 @@ class Form {
         }
     }
     
-    
-    
+
     public function getCountriesSelect($record = null){
         $objCountry = new Country();
         $countries = $objCountry->getCountries();
@@ -65,5 +64,21 @@ class Form {
             $out .= "</select>";
             return $out;
         }
+    }
+    
+    public function getPostArray($expected = null){
+        $out = array();
+        if ($this->isPost()){
+            foreach($_POST as $key => $value){                
+                if (!empty($expected)){
+                    if (in_array($key, $expected)){
+                        $out[$key] = strip_tags($value);
+                    }
+                } else {
+                    $out[$key] = strip_tags($value);
+                }
+            }
+        }
+        return $out;
     }
 }
