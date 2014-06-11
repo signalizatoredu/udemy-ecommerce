@@ -17,7 +17,8 @@ class Validation {
         "county" => "Please provide your county name",
         "post_code" => "Please provide your post code",
         "country" => "Please select your country",
-        "email" => "Please provide your valid email address"
+        "email" => "Please provide your valid email address",
+        "login" => "Username and / or password were incorrect"
     );
     
     // list of expetcted fields

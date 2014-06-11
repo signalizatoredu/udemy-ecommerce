@@ -53,7 +53,12 @@ class Url {
         }
         
         return "/?".implode("&", $out);
-    }    
+    }
+    
+    public static function getReferreUrl(){
+        $page = self::getParam(Login::$_referrer);
+        return !empty($page) ? "/?page={$page}" : null;
+    }
     
     
 }

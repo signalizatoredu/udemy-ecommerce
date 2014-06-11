@@ -1,4 +1,7 @@
 <?php 
+
+Login::restrictFront();
+
 $objForm = new Form();
 $objValid = new Validation($objForm);
 
