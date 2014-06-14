@@ -67,5 +67,27 @@ class Helper {
             exit;
         }
     }
+    
+    public static function setDate($case = null, $date = null){
+        $date = empty ($date) ? time() : strtotime($date);
+        
+        switch ($case){
+            case 1:
+                // 01/01/2010
+                return date('d/m/Y', $date);
+                break;
+            case 2:
+                // Monday, 1st January 2010, 09:30:56
+                return date('l,jS F Y, H:i:s', $date);
+                break;   
+            case 3:
+                // 2010-01-01-09-30-56
+                return date('Y-m-d-H-i-s', $date);
+                break;       
+            default:
+                // 2010-01-01 09-30-56
+                return date('Y-m-d H-i-s', $date);
+        }
+    }
 	
 }

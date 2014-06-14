@@ -13,12 +13,18 @@ class Validation {
         "first_name" => "Please provide your first name",
         "last_name" => "Please provide your last name",
         "address_1" => "Please provide the first line of your address",
+        "address_2" => "Please provide the second line of your address",
         "town" => "Please provide your town name",
         "county" => "Please provide your county name",
         "post_code" => "Please provide your post code",
         "country" => "Please select your country",
         "email" => "Please provide your valid email address",
-        "login" => "Username and / or password were incorrect"
+        "email_duplicate" => "This email address is already taken",
+        "login" => "Username and / or password were incorrect",
+        "password" => "Please choose your password",
+        "confirm_password" => "Please confirm your password",
+        "password_mismatch" => "Password did not match"
+        
     );
     
     // list of expetcted fields
@@ -57,7 +63,7 @@ class Validation {
 
             if (!empty($this->_post)){
                 foreach ($this->_post as $key => $value){
-                    $this->check($key, $value);
+                   $this->check($key, $value);
                 }
             }
         }
@@ -74,9 +80,17 @@ class Validation {
     }
     
     public function checkSpecial ($key, $value){
+        
+        //echo "<br /> $key = $value";
+       // echo "<br /> check($key, $value);";
+        
+        
         switch ($this->_special[$key]){
             case 'email':
-                if ($this->isEmail($value)){
+                
+                // echo "<br /> isEmail($value)";
+                
+                if (!$this->isEmail($value)){
                     $this->add2Errors($key);
                 }
                 break;
@@ -85,17 +99,27 @@ class Validation {
 
     public function add2Errors($key){
         $this->_errors[] = $key;
+       // echo "<br /> $key ";
     }
     
     
-    public function isEmail($email = nul){
+    public function isEmail($email = null){
+        
+        // echo "<br /> isEmail ";
+        // echo "<br /> $email ";
+        
         if (!empty($email)){
             $result = filter_var($email, FILTER_VALIDATE_EMAIL);
+            
+            // echo "<br /> $result ";
+            
             return !$result ? false : true;
+            // return true;
         }
         return false;
     }
     
+  
     public function isValid(){
         $this->process();
         

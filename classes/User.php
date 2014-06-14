@@ -20,5 +20,62 @@ class User extends Application{
         }
         return false;
         }
+        
+    public function addUser($params = null, $password = null){
+                
+        if (!empty($params) && !empty($password)){
+            $this->db->prerareInsert($params);
+            
+            if ($this->db->insert($this->_table)){
+                // send email
+                $objEmail = new Email();
+                
+                if ($objEmail->process(1, array(
+                    
+                    'email'      => $params['email'],
+                    'first_name' => $params['first_name'],
+                    'last_name'  => $params['last_name'],
+                    'password'   => $password,
+                    'hash'       => $params['hash']
+                    
+                ))){return true;}
+            }
+            return false;
+        }
+        return false;
+    }
     
-}
+    public function getUserByHash($hash = null){
+        if (!empty($hash)){
+            $sql  = "SELECT * FROM `{$this->_table}`
+                     WHERE `hash` = '";
+            $sql .= $this->db->escape($hash)."'";
+            
+            return $this->db->fetchOne($sql);
+        }
+    }
+    
+    
+    public function makeActive($id = null){
+        if (!empty($id)){
+            $sql = "UPDATE `{$this->_table}`
+                    SET `active` = 1
+                    WHERE `id` = '".$this->db->escape($id)."'";
+            
+            return $this->db->query($sql);
+        }
+    }
+    
+    public function getByEmail($email = null){
+        if (!empty($email)){
+            $sql = "SELECT `id` FROM `{$this->_table}`
+                    WHERE `email` = '".$this->db->escape($email)."'
+                    AND `active` = 1";
+            
+            return $this->db->fetchOne($sql);
+        }
+    }
+    
+    
+    // class end;
+} 
