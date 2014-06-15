@@ -35,7 +35,7 @@ $(document).ready(function(){
                 refreshSmallBasket();
             },
             error: function(){
-                alert("Error occured :: basket.js :: removeFromBasket");
+                alert("An error has occured :: basket.js :: removeFromBasket");
             }
         });
     }
@@ -52,7 +52,7 @@ $(document).ready(function(){
                 });
             },
             error: function(data){
-                alert("Error occured :: basket.js :: refreshSmallBasket");
+                alert("An error has occured :: basket.js :: refreshSmallBasket");
             }
         });
     }
@@ -67,7 +67,7 @@ $(document).ready(function(){
                 initBinds();
             },
             error: function(data){
-                alert("Error occured :: basket.js :: refreshBigBasket");
+                alert("An error has occured :: basket.js :: refreshBigBasket");
             }
         });
     }
@@ -101,7 +101,7 @@ $(document).ready(function(){
                     } 
                 },
                 error: function(data){
-                    alert("Error occured :: basket.js :: add_to_basket");
+                    alert("An error has occured :: basket.js :: add_to_basket");
                 }
             });
             return false;
@@ -121,12 +121,50 @@ $(document).ready(function(){
                    refreshBigBasket();
                },
                error: function(){
-                   alert('Error occured :: basket.js :: updateBasket');
+                   alert('An error has occured :: basket.js :: updateBasket');
                }
            })
         });
     }
     
+    
+    // proceed to paypal
+    
+    if ($('.paypal').length > 0){
+        $('.paypal').click(function(){
+            var token = $(this).attr('id');
+            var image = "<div style=\"text-align:center\">";
+            image = image + "<img src=\"/images/loadinfo.net.gif\"";
+            image = image + " alt=\"Proceeding to PayPal\" />";
+            image = image + "<br />Please wait while we are redirecting you to PayPal...";
+            image = image + "</div><div id=\"frm_pp\"></div>";
+            
+            $('#big_basket').fadeOut(200, function(){
+                $(this).html(image).fadeIn(200, function(){
+                    send2PP(token);
+                });
+            });
+        });
+    }
+    
+    function send2PP(token){
+        $.ajax({
+            type: 'POST',
+            url: '/modules/paypal.php',
+            data: ({token : token}),
+            dataType: 'html',
+            success: function(data){
+                $('#frm_pp').html(data);
+                // submit form automatically
+                $('#ftm_paypal').submit();
+            },
+            error: function(){
+                alert('An error has occured :: basket.js :: send2PP');
+            }
+        })
+    }
+    
+    // basket.js end
 });
 
 

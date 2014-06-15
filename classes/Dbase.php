@@ -127,6 +127,25 @@ class Dbase {
         }
     }
     
+    public function prepareUpdate($array = null){
+        if (!empty($array)){
+            foreach($array as $key => $value){
+                $this->_update_sets[] = "`{$key}` = '" .$this->escape($value)."'";
+                    
+            }
+        }
+    }
+    
+    public function update($table = null, $id = null){
+        if (!empty($table) && !empty($id) && !empty($this->_update_sets)){
+            $sql = "UPDATE `{$table}` SET ";
+            $sql .= implode(", ", $this->_update_sets);
+            $sql .= " WHERE `id` = '".$this->escape($id)."'";
+            
+            return $this->query($sql);
+        }
+    }
+    
     
     
     

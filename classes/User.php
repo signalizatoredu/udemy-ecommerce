@@ -76,6 +76,26 @@ class User extends Application{
         }
     }
     
+    public function getUser($id = null){
+        if (!empty($id)){
+            $sql = "SELECT * FROM `{$this->_table}`
+                    WHERE `id` = '".$this->db->escape($id)."'";
+            
+            return $this->db->fetchOne($sql);
+        } 
+    }
+    
+    public function updateUser($array = null, $id = null){
+        if (!empty($array) && !empty($id)){
+            $this->db->prepareUpdate($array);
+            
+            if ($this->db->update($this->_table, $id)){
+                return true;
+            }
+            return false;
+        }
+    }
+    
     
     // class end;
 } 

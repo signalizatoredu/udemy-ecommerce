@@ -21,4 +21,10 @@ class Session {
         }
     }
     
+    public static function setSession($name = null, $value = null){
+        if (!empty($name) && !empty($value)){
+            $_SESSION[$name] = $value;
+        }
+    }
+    
 }

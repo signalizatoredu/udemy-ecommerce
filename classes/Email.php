@@ -23,8 +23,8 @@ class Email {
         $this->objMailer->Port = 587;
         $this->objMailer->Username = "your_mail@gmail.com";
         $this->objMailer->Password = "your_password";
-        $this->objMailer->SetFrom("your_mail@gmail.com", "your_name");
-        $this->objMailer->AddReplyTo("your_mail@gmail.com", "your_name");
+        $this->objMailer->SetFrom("your_mail@gmail.com", "YourName");
+        $this->objMailer->AddReplyTo("your_mail@gmail.com", "YourName");
     }
     
     public function process($case = null, $array = null){
