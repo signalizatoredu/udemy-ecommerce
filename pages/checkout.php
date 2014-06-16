@@ -6,9 +6,6 @@ $objUser = new User();
 $user = $objUser->getUser(Session::getSession(Login::$_login_front));
 
 if (!empty($user)){
-    
-
-
 
 $objForm = new Form();
 $objValid = new Validation($objForm);

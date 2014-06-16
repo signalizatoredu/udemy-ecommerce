@@ -24,7 +24,7 @@ class PayPal {
     private $_fields = array();
     
     // your paypal id
-    private $_business = '';
+    private $_business = 'marley.business@gmail.com';
     
     // page style
     private $_page_style = null;
@@ -39,7 +39,7 @@ class PayPal {
     private $_notify_url;
     
     // currency code
-    private $_currency_code = 'GBR';
+    private $_currency_code = 'GBP';
     
     // tax / vat for _cart
     public $_tax_cart = 0;
@@ -78,6 +78,7 @@ class PayPal {
     // ------------------------------------------
     
     public function addProduct($number, $name, $price = 0, $qty = 1){
+        
         switch ($this->_cmd){
             
             case '_cart':
@@ -111,6 +112,9 @@ class PayPal {
     }
     
     private function standardFields(){
+
+        // $this->addField('standardFields_begin', 'standardFields_begin');        
+        
         $this->addField('cmd', $this->_cmd);
         $this->addField('business', $this->_business);
         
@@ -122,9 +126,7 @@ class PayPal {
         $this->addField('cancel_payment', $this->_cancel_payment);
         $this->addField('currency_code', $this->_currency_code);
         $this->addField('rm', 2);
-        
-        
-        
+                
         switch($this->_cmd){
             case '_cart':
                 if($this->_tax_cart !=0){
@@ -140,40 +142,56 @@ class PayPal {
                 
                 break;
         }
+        
+        // $this->addField('standardFields_end', 'standardFields_end');
     }
     
     private function prePopulate(){
+        
+        // $this->addField('prePopulate_BEGIN', 'prePopulate_BEGIN');
+        
         if (!empty($this->_populate)){
             foreach ($this->_populate as $key => $value){
                 $this->addField($key, $value);
             }
         }
+        
+        // $this->addField('prePopulate_END', 'prePopulate_END');
     }
 
 
     private function processFields(){
         $this->standardFields();
-        if (!empty($this->_proudcts)){
+        
+        // $this->addField('processFields_BEGIN', 'processFields_BEGIN');
+        
+        if (!empty($this->_products)){
             foreach ($this->_products as $product){
                 foreach ($product as $key => $value){
                     $this->addField($key, $value);
                 }
             }
         }
+        
+        // $this->addField('processFields_END', 'processFields_END');
+        
         $this->prePopulate();
     }
     
     private function render(){
-        $out  = '<form action="'.$this->_url.'" method="post" id="frm_paypal"';
+
+        $out  = '<form action="'.$this->_url.'" method="post" id="frm_paypal">';
         $out .= $this->getFields();
+        
+        // $out .= '<input type="submit" value="FUCK YOU" />';
         $out .= '<input type="submit" value="Submit" />';
         $out .= '</form>';
+        
         return $out;
     }
     
-    
-    
     private function getFields(){
+        
         $this->processFields();
         
         if (!empty($this->_fields)){

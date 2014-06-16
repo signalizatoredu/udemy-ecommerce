@@ -7,7 +7,7 @@ $objForm = new Form();
 $token1 = $objForm->getPost('token');
 
 if ($token2 == Login::string2hash($token1)){
-    
+ 
     // create order
     
     $objOrder = new Order();
@@ -55,6 +55,7 @@ if ($token2 == Login::string2hash($token1)){
                 
                 // redirect client to PayPal
                 echo $objPayPal->run($order['id']);
+               
             }
 
         }
