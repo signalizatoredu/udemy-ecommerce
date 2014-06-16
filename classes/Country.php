@@ -11,4 +11,15 @@ class Country extends Application{
         
     }
     
+    public function getCountry($id = null){
+        
+        if (!empty($id)){
+            $sql = "SELECT * FROM `countries`
+                    WHERE `id` = '".$this->db->escape($id)."'"; 
+        
+        return $this->db->fetchOne($sql);
+        }
+    }
+    
+    // end Country class;
 }

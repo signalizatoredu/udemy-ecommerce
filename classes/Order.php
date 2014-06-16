@@ -53,7 +53,7 @@ class Order extends Application{
             $this->_fields[] = 'date';
             $this->_values[] = Helper::setDate();
             
-            $sql  = "INSERT INTO `{$this->_table}` ('";
+            $sql  = "INSERT INTO `{$this->_table}` (`";
             $sql .= implode("`, `", $this->_fields);
             $sql .= "`) VALUES ('";
             $sql .= implode("', '", $this->_values);
@@ -83,10 +83,10 @@ class Order extends Application{
             
             foreach ($this->_items as $item){
                 $sql = "INSERT INTO `{$this->_table_2}`
-                        (`order`, `products`, `price`, `qty`)
+                        (`order`, `product`, `price`, `qty`)
                         VALUES ('{$order_id}', '".$item['id']."', '".$item['price']."', '".$this->_basket[$item['id']]['qty']."')";
                         
-                if (!$this->db->query($slq)){
+                if (!$this->db->query($sql)){
                     $error[] = $sql;
                     
                 }
@@ -100,7 +100,7 @@ class Order extends Application{
     
     public function getOrder($id = null){
         
-        $id = !emtpy($id) ? id : $this->_id;
+        $id = !empty($id) ? id : $this->_id;
         
         $sql = "SELECT * FROM `{$this->_table}`
             WHERE `id` = '".$this->db->escape($id)."'";
@@ -110,7 +110,7 @@ class Order extends Application{
     }
     
     public function getOrderItems($id =  null){
-        $id = !emtpy($id) ? $id : $this->_id;
+        $id = !empty($id) ? $id : $this->_id;
         
         $sql = "SELECT * FROM `{$this->_table_2}`
             WHERE `order` = '".$this->db->escape($id)."'";

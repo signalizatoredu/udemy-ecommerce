@@ -156,7 +156,7 @@ $(document).ready(function(){
             success: function(data){
                 $('#frm_pp').html(data);
                 // submit form automatically
-                $('#ftm_paypal').submit();
+                $('#frm_paypal').submit();
             },
             error: function(){
                 alert('An error has occured :: basket.js :: send2PP');
