@@ -72,7 +72,7 @@ class PayPal {
         $this->_return = SITE_URL."/?page=return";
         $this->_cancel_payment = SITE_URL."/?page=cancel";
         $this->_notify_url = SITE_URL."/?page=ipn";
-        $this->_log_file = ROOT_PATH.DS."log".DS."ipn.log";
+        $this->_log_file = ROOT_PATH.DS."logs".DS."ipn.log";
     }
     
     // ------------------------------------------
@@ -206,6 +206,120 @@ class PayPal {
         
         return $this->render();
     }
+    
+    private function validateIpn(){
+        $hostname = gethostbyaddr($_SERVER['REMOTE_ADDR']);
+        
+        // check if post has been received from paypal.com
+        
+        if (!preg_match('/paypal\.com$/', $hostname)){
+            return false;
+        }
+        
+        // get all posted variables and put them to array
+        $objForm = new Form();
+        $this->_ipn_data = $objForm->getPostArray();
+        
+        // check if email of the business matches the email recived
+        // in post from IPN
+        
+        if (!empty($this->_ipn_data) && array_key_exists('ceceiver_email', $this->_ipn_data) && strtolower($this->_ipn_data['receiver_email']) != strtolower($this->_business)){
+            return false;
+        } 
+        
+        return true;
+        
+    }
+    private function getReturnParams(){
+        $out = array('cmd=_notify-validate');
+        
+        if (!empty($this->_ipn_data)){
+            foreach ($this->_ipn_date as $key => $value){
+                $value = function_exists('get_magic_quote_gpc') ? urlencode(stipslashes($value)) : urlencode($value);
+                $out[] = "{$key}={$value}";
+                
+            }
+        }
+        
+        return implode("&", $out);
+    }
+    
+    private function sendCurl(){
+        $response = $this->getReturnParams();
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $this->_url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_POST, 1);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $response);
+        curl_setopt($ch, CURLOPT_HEADER, 0);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content_Type: application/x-www-form-urlencoded", "Content-Length: " . strlen($response)));
+        curl_setopt($ch, CURLOPT_VERBOSE, 1);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($ch, CERLOPT_FOLLOWLOCATION, 1);
+        curl_setopt($ch, CERLOPT_TMEOUT, 30);
+        
+        $this->_ipn_result = curl_exec($ch);
+        curl_close($ch);
+    }
+    
+    public function ipn(){
+        if ($this->validate()){
+            $this->sendCurl();
+            
+            if (strcmp($this->_ipn_result, "VERIFIED") == 0){
+                $objOrder = new Order();
+                
+                // update order
+                
+                if (!empty($this->_ipn_data)){
+//                    $objOrder->approve(
+//                                    $this->_ipn_data['txt_id'],
+//                                    $this->_ipn_date['payment_status'],
+//                                    $this->_ipn_date['custom']
+//                                );
+                    
+                    $objOrder->approve(
+                                    $this->_ipn_data,
+                                    $this->_ipn_result
+                                );                    
+                }
+            }
+            
+            // $this->saveLog();
+        }
+    }
+    
+    
+// решили хранить лог в базе
+//    private function savelog(){
+//        if($this->_log_file != null){
+//            $out = array();
+//            
+//            // current date
+//            $out[] = "Data: " . date('d/m/Y H:i:s', time());
+//            
+//            // status
+//            $oot[] = "Status: " . $this->_ipn_result;
+//            
+//            // log the POST variable
+//            $out[] = "IPN Response:\n\n";
+//            
+//            if (!empty($this->_ipn_data)){
+//                foreach ($this->_ipn_data as $key => $value){
+//                    $out[] = "{$key} : {$value}";
+//                }
+//            }
+//            
+//            // open and write to the log file
+//            $fp = fopen($this->_log_file, 'a');
+//            $text  = implode("\n", $out);
+//            $text .= "\n\n--------------\n\n";
+//            fwrite($fp, $text);
+//            
+//            fclose($fp);
+//            
+//        }
+//    }
     
     
     // end class;

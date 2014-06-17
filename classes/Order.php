@@ -117,7 +117,50 @@ class Order extends Application{
         
         return $this->db->fetchAll($sql);
     }
+    
+//    public function approve($txn_id = null, $payment_status = null, $id = null){
+//        if (!empty($txn_id) && !empty($payment_status) && !empty($id)){
+//            $active = $payment_status == 'Completed' ? 1 : 0;
+//            
+//            $sql = "UPDATE `{$this->_table}`
+//                SET `pp_status` = '".$this->db->escape($active)."',
+//                `txn_id` = '".$this->db->escape($txn_id)."',
+//                `payment_status` = '".$this->db->escape($payment_status)."'
+//                WHERE `id` = '".$this->db->escape($id)."'";
+//            
+//            $this->db->query($sql);
+//        }
+//    }
        
-       
+    public function approve($array = null, $result = null){
+        if (!empty($array) && !empty($result)){
+            
+            if (array_key_exists('txn_id', $array) &&
+                array_ey_exists('payment_status', $array) &&
+                array_ey_exists('custom', $array)){
+                
+            $active = $array['payment_status'] == 'Completed' ? 1 : 0;
+            
+            $out = array();
+            
+            foreach ($array as $key => $value){
+                $out[] = "{$key} : {$value}";
+            }
+            
+            $out = implode("\n", $out);
+            
+            $sql = "UPDATE `{$this->_table}`
+                    SET `pp_status` = '".$this->db->escape($active)."',
+                    `txn_id` = '".$this->db->escape($array['txn_id'])."',
+                    `payment_status` = '".$this->db->escape($array['payment_status'])."',
+                    `ipn` = '".$this->db_escape($out)."',
+                    `response` = '".$this->db->escape($result)."'
+                    WHERE `id` = '".$this->db->escape($array['custom'])."'";
+            
+            $this->db->query($sql);
+            
+            }
+        }
+    }       
    // end class;    
 }
