@@ -50,4 +50,27 @@ class Login {
             return hash('sha512', $string);
         }
     }
+    
+    public static function getFullNameFront($id = null){
+        if (!empty($id)){
+            $objUser = new User();
+            $user = $objUser->getUser($id);
+            
+            if (!empty($user)){
+                return $user['first_name']." ".$user['last_name'];
+            }
+        }
+    }
+    
+    public static function logout($case = null){
+        if (!empty($case)){
+            $_SESSION[$case] = null;
+            unset($_SESSION[$case]);
+        } else {
+            session_destroy();
+        }
+    }
+            
+            
+   // end class;         
 }

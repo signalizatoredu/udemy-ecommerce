@@ -100,7 +100,7 @@ class Order extends Application{
     
     public function getOrder($id = null){
         
-        $id = !empty($id) ? id : $this->_id;
+        $id = !empty($id) ? $id : $this->_id;
         
         $sql = "SELECT * FROM `{$this->_table}`
             WHERE `id` = '".$this->db->escape($id)."'";
@@ -161,6 +161,28 @@ class Order extends Application{
             
             }
         }
-    }       
+    }
+    
+    public function getClienOrders($client_id = null){
+        
+        if (!empty($client_id)){
+            $sql = "SELECT * FROM `{$this->_table}`
+                WHERE `client` = '".$this->db->escape($client_id)."'
+                ORDER BY `date` DESC";
+            
+            return $this->db->fetchAll($sql);
+        }
+        
+    }
+    
+    public function getStatus($id = null){
+        if (!empty($id)){
+            $sql = "SELECT * FROM `{$this->_table_3}`
+                WHERE `id` = '".$this->db->escape($id)."'";
+            
+            return $this->db->fetchOne($sql);
+        }
+    }
+    
    // end class;    
 }

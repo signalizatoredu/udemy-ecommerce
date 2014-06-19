@@ -83,10 +83,10 @@ class Paging {
                 // next page number 
                 $id = ($this->_current + 1);
                 
-                $url = $this->_url."&amp;".self::$_key.="=".$id;
+                $url = $this->_url."&amp;".self::$_key."=".$id;
                 $out[] = "<a href=\"{$url}\">Next</a>";
             } else {
-                $out[] = "<span>Previous</stan>";
+                $out[] = "<span>Next</stan>";
             }
             
             // last link
@@ -94,7 +94,7 @@ class Paging {
                 $url = $this->_url."&amp;".self::$_key."=".$this->_numb_of_pages;
                 $out[] = "<a href=\"{$url}\">Last</a>";
             } else {
-                $out[] = "<span>Last</stan>";
+                $out[] = "<span>Last</span>";
             }
             
             return "<li>".implode("</li><li>", $out)."</li>";

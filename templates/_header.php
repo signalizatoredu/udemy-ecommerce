@@ -21,6 +21,20 @@ $business = $objBusiness->getBusiness();
 <div id="header">
 	<div id="header_in">
 		<h5><a href="/"><?php echo $business['name']; ?></a></h5>
+                
+                <?php
+                
+                if (Login::isLogged(Login::$_login_front)){
+                    echo '<div id="logged_as">Logged in as: <strong>';
+                    echo Login::getFullNameFront(Session::getSession(Login::$_login_front));
+                    echo '</strong> | ';
+                    echo '<a href="/?page=orders">My orders</a>';
+                    echo ' | <a href="/?page=logout">Logout</a></div>';
+                } else {
+                    echo '<div id="logged_as"><a href="/?page=login">Login</a></div>';
+                }
+                
+                ?>
 	</div>
 </div>
 <div id="outer">
