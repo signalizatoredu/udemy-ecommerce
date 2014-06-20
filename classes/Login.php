@@ -27,12 +27,25 @@ class Login {
         return false;
     }
     
-    public static function LoginFront($id, $url = null){
-        $url = !empty($url) ? $url : self::$_dashboard_front;
-        $_SESSION[self::$_login_front] = $id;
-        $_SESSION[self::$_valid_login] = 1;
+    public static function loginFront($id, $url = null){
+        if (!empty($id)){
         
-        Helper::redirect($url);
+            $url = !empty($url) ? $url : self::$_dashboard_front;
+            $_SESSION[self::$_login_front] = $id;
+            $_SESSION[self::$_valid_login] = 1;
+        
+            Helper::redirect($url);       
+        }
+
+    }
+    
+    public static function loginAdmin($id = null, $url = null){
+        if (!empty($id)){
+            $url = !empty($url) ? $url : self::$_dashborad_admin;
+            $_SESSION[self::$_login_admin] = $id;
+            $_SESSION[self::$_valid_login] = 1;
+            Helper::redirect($url);
+        }
     }
     
     public static function restrictFront(){
@@ -42,6 +55,12 @@ class Login {
                     : self::$_login_page_front;
             
             Helper::redirect($url);
+        }
+    }
+    
+    public static function restrictAdmin(){
+        if (!self::isLogged(self::$_login_admin)){
+            Helper::redirect(self::$_login_page_admin);
         }
     }
     
@@ -65,11 +84,15 @@ class Login {
     public static function logout($case = null){
         if (!empty($case)){
             $_SESSION[$case] = null;
+            $_SESSION[self::$_valid_login] = null;
             unset($_SESSION[$case]);
+            unset($_SESSION[self::$_valid_login]);
         } else {
             session_destroy();
         }
     }
+    
+    
             
             
    // end class;         
