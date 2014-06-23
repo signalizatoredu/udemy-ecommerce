@@ -9,7 +9,7 @@ class Paging {
     private $_numb_of_records;
     private $_current;
     private $_offset = 0;
-    private static $_key = 'pg';
+    public static $_key = 'pg';
     public $_url;
     
     public function __construct($rows, $max = 10) {

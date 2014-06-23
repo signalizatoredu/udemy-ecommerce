@@ -25,7 +25,7 @@ class Form {
     
     public function stickySelect ($field, $value, $default = null){
         if ($this->isPost($field) && $this->getPost($field) == $value){
-            return " selected=\selected\"";
+            return " selected=\"selected\"";
         } else {
             return !empty($default) && $default == $value ? " selected=\"selected\"" : null;
         }

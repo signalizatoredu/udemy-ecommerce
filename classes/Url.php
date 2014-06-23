@@ -60,5 +60,38 @@ class Url {
         return !empty($page) ? "/?page={$page}" : null;
     }
     
+    public static function getParams4Search($remove = null){
+        self::getAll();
+        $out = array();
+        
+        if (!empty(self::$_params)){
+            
+            foreach (self::$_params as $key => $value){
+                
+                if (!empty($remove)){
+                    $remove = is_array($remove) ? $remove : array($remove);
+                
+                    
+                    if (!in_array($key, $remove)){
+                        $input  = '<input type="hidden" name="'.$key;
+                        $input .= '" value="'.$value.'" />';
+                        $out[] = $input;
+                    }
+                    
+                } else {
+                    
+                        $input  = '<input type="hidden" name="'.$key;
+                        $input .= '" value="'.$value.'" />';
+                        $out[] = $input;
+                }
+            }
+            
+          return implode ("", $out);
+            
+        }
+        
+
+    }
+    
     
 }

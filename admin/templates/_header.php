@@ -16,7 +16,8 @@
                 <?php
                 
                 if (Login::isLogged(Login::$_login_admin)){
-                    echo '<div id="logged_as">Logged in as: <strong>';
+                    echo '<div id="logged_as">Logged in as:';
+                    echo '<strong>';
                     echo Login::getFullNameFront(Session::getSession(Login::$_login_admin));
                     echo '</strong> ';
                     

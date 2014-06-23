@@ -100,7 +100,7 @@ class Dbase {
         return mysql_insert_id($this->_conndb);
     }
     
-    public function prerareInsert($array = null){
+    public function prepareInsert($array = null){
         if (!empty($array)){             
             foreach ($array as $key => $value){
                 $this->_insert_keys[] = $key;

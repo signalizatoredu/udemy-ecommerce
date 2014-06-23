@@ -89,5 +89,12 @@ class Helper {
                 return date('Y-m-d H-i-s', $date);
         }
     }
+    
+    
+    public static function cleanString($name = null){
+        if (!empty($name)){
+            return strtolower(preg_replace('/[^a-zA-Z0-9.]/', '-', $name));
+        }
+    }
 	
 }

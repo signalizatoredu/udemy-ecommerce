@@ -23,7 +23,11 @@ class Validation {
         "login" => "Username and / or password were incorrect",
         "password" => "Please choose your password",
         "confirm_password" => "Please confirm your password",
-        "password_mismatch" => "Password did not match"
+        "password_mismatch" => "Password did not match",
+        "category" => "Please select the category",
+        "name" => "Please provide a name",
+        "description" => "Password provide a description",
+        "price" => "Password provide a price"
         
     );
     
