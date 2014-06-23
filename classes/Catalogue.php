@@ -12,9 +12,9 @@ class Catalogue extends Application {
     
     public function getCategories(){
         
-        $sql = "SELECT `t`.* FROM `{$this->_table}` `t`
-                ORDER BY `t`.`name` ASC";
-                
+        $sql = "SELECT * FROM `{$this->_table}`
+                ORDER BY `name` ASC";
+                        
         return $this->db->fetchAll($sql);
     }
     
@@ -24,6 +24,48 @@ class Catalogue extends Application {
                 WHERE `t`.`id` = '".$this->db->escape($id). "'";
         
         return $this->db->fetchOne($sql);
+    }
+    
+    public function addCategory($name = null){
+        if (!empty($name)){
+            $sql = "INSERT INTO `{$this->_table}`
+                (`name`) VALUES ('".$this->db->escape($name)."')";
+            
+            return $this->db->query($sql);
+        }
+    }
+    
+    public function updateCategory($name = null, $id = null){
+
+        if (!empty($name) && !empty($id)){
+            $sql = "UPDATE `{$this->_table}`
+                SET `name` = '".$this->db->escape($name)."'
+                WHERE `id` = '".$this->db->escape($id)."'";
+            
+            return $this->db->query($sql);
+        }
+        return false;
+    }
+    
+    public function duplicateCategory($name = null, $id = null){
+        if (!empty($name)){
+            $sql = "SELECT * FROM `{$this->_table}`
+                    WHERE `name` = '".$this->db->escape($name)."'";
+            
+            $sql .= !empty($id) ? " AND `id` != '".$this->db->escape($id)."'" : null;
+        
+            return $this->db->fetchOne($sql);
+            }
+    }
+    
+    public function removeCategory($id = null){
+        if (!empty($id)){
+            $sql = "DELETE FROM `{$this->_table}`
+                WHERE `id` = '".$this->db->escape($id)."'";
+            
+            return $this->db->query($sql);
+        }
+        return false;
     }
     
     public function getProducts($cat){

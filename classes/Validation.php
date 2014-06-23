@@ -27,7 +27,10 @@ class Validation {
         "category" => "Please select the category",
         "name" => "Please provide a name",
         "description" => "Password provide a description",
-        "price" => "Password provide a price"
+        "price" => "Password provide a price",
+        "name_duplicate" => "This name is already taken"
+        
+        
         
     );
     

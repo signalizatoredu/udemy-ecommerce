@@ -62,8 +62,8 @@ require_once('templates/_header.php'); ?>
         <tr>
             <td><?php echo $product['id']; ?></td>
             <td><?php echo Helper::encodeHtml($product['name']); ?></td>
-            <td class="ta_r"><a href="/admin/?page=products&action=remove&amp;id=<?php echo $product['id']; ?>">Remove</a></td>
-            <td class="ta_r"><a href="/admin/?page=products&action=edit&amp;id=<?php echo $product['id']; ?>">Edit</a></td>
+            <td class="ta_r"><a href="/admin/?page=products&amp;action=remove&amp;id=<?php echo $product['id']; ?>">Remove</a></td>
+            <td class="ta_r"><a href="/admin/?page=products&amp;action=edit&amp;id=<?php echo $product['id']; ?>">Edit</a></td>
         </tr>
         
         <?php } ?>
