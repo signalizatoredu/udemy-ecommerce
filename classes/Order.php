@@ -163,7 +163,7 @@ class Order extends Application{
         }
     }
     
-    public function getClienOrders($client_id = null){
+    public function getClientOrders($client_id = null){
         
         if (!empty($client_id)){
             $sql = "SELECT * FROM `{$this->_table}`

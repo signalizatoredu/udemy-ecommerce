@@ -96,6 +96,24 @@ class User extends Application{
         }
     }
     
+    public function getUsers($srch = null){
+        $sql = "SELECT * FROM `{$this->_table}`
+            WHERE `active` = 1";
+        if (!empty($srch)){
+            $srch = $this->db->escape($srch);
+            $sql .= " AND (`first_name` LIKE '%{$srch}%' || `last_name` LIKE '%{$srch}%')"; 
+        }
+        $sql .= " ORDER BY `last_name`, `first_name` ASC";
+        return $this->db->fetchAll($sql);
+    }
     
-    // class end;
+    public function removeUser($id = null){
+        if (!empty($id)){
+            $sql = "DELETE FROM `{$this->_table}`
+                WHERE `id` = '".$this->db_escape($id)."'";
+            return $this->db->query($sql);
+        }
+    }
+
+    // end of User class; 
 } 
