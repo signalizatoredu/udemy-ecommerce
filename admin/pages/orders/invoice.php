@@ -1,5 +1,5 @@
 <?php
-Login::restrictFront();
+
 $id = Url::getParam('id');
 
 if (!empty($id)){
@@ -7,10 +7,7 @@ if (!empty($id)){
     $objOrder = new Order();
     $order = $objOrder->getOrder($id);
     
-    if (
-            !empty($order) && 
-            Session::getSession(Login::$_login_front) == $order['client']
-        ) {
+    if (!empty($order)) {
         
         $items = $objOrder->getOrderItems($id);
         $objCatalogue = new Catalogue();

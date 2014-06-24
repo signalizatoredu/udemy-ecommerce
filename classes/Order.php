@@ -184,5 +184,41 @@ class Order extends Application{
         }
     }
     
-   // end class;    
+    public function getOrders($srch = null){
+        
+        $sql  = "SELECT * FROM `{$this->_table}`";
+        
+        $sql .= !empty($srch) ? " WHERE `id` = '".$this->db->escape($srch)."'" : null;
+        $sql .= " ORDER BY `date` DESC";
+        
+        return $this->db->fetchAll($sql);
+    }
+    
+    public function getStatuses(){
+        $sql = "SELECT * FROM `{$this->_table_3}`
+            ORDER BY `id` ASC";
+        
+        return $this->db->fetchAll($sql);
+    }
+    
+    public function updateOrder($id = null, $array = null){
+        if (!empty($id) && !empty($array) && is_array($array) && array_key_exists('status', $array) && array_key_exists('notes', $array)){
+            $sql = "UPDATE `{$this->_table}`
+                    SET `status` = '".$this->db->escape($array['status'])."',
+                    `notes` = '".$this->db->escape($array['notes'])."'
+                    WHERE `id` = '".$this->db->escape($id)."'";            
+            return $this->db->query($sql);    
+        }
+    }
+    
+    public function removeOrder($id = null){
+        if (!empty($id)){
+            $sql = "DELETE FROM `{$this->_table}`
+                WHERE `id` = '".$this->db->escape($id)."'";
+            
+        return $this->db->query($sql);
+        }
+    }
+    
+   // end of Order class;    
 }
