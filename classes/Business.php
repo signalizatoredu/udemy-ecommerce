@@ -15,4 +15,13 @@ class Business extends Application {
         $business = $this->getBusiness();
         return $business['vat_rate'];
     }
+    
+    public function updateBusiness($vars = null){
+        if (!empty($vars)){
+            $this->db->prepareUpdate($vars);
+            return $this->db->update($this->_table,1);
+        }
+    }
+    
+    // end of Business class
 }
