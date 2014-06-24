@@ -32,16 +32,16 @@ class Upload {
                 
                 $name = Helper::cleanString($value['name']);
                 
-                if ($this->_owerwrite == false && is_file($path.DS.$name)){
+                if ($this->_overwrite == false && is_file($path.DS.$name)){
                     $prefix = date('YmdHis', time());
                     $name = $prefix."-".$name;
                 }
                 
-                if (!move_uploaded_file($value['tmp_name'], $path.Ds.$name)){
+                if (!move_uploaded_file($value['tmp_name'], $path.DS.$name)){
                     $this->_errors[] = $key;
                 }
                 
-                $this->_name[] = $name;
+                $this->_names[] = $name;
             }
             
             return empty($this->_errors) ? true : false;

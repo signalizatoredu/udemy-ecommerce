@@ -53,7 +53,7 @@ if ($objForm->isPost('name')){
 
 require_once ('templates/_header.php'); ?>
 
-<h1>Product :: Edited </h1>
+<h1>Product :: Edit</h1>
 
 
 <form action="" method="post" enctype="multipart/form-data">
