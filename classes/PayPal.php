@@ -223,7 +223,7 @@ class PayPal {
         // check if email of the business matches the email recived
         // in post from IPN
         
-        if (!empty($this->_ipn_data) && array_key_exists('ceceiver_email', $this->_ipn_data) && strtolower($this->_ipn_data['receiver_email']) != strtolower($this->_business)){
+        if (!empty($this->_ipn_data) && array_key_exists('receiver_email', $this->_ipn_data) && strtolower($this->_ipn_data['receiver_email']) != strtolower($this->_business)){
             return false;
         } 
         
@@ -263,7 +263,7 @@ class PayPal {
     }
     
     public function ipn(){
-        if ($this->validate()){
+        if ($this->validateIpn()){
             $this->sendCurl();
             
             if (strcmp($this->_ipn_result, "VERIFIED") == 0){
